@@ -19,6 +19,10 @@ io.on('connection', function(socket) {
   socket.on('disconnect', function(){
     console.log(socket.id, 'good bye!');
   });
+  socket.on('chat message', function(msg){
+      console.log('got message:' + msg);
+      io.sockets.emit('chat message', msg);
+  });
 });
 
 

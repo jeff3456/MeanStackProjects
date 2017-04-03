@@ -1,10 +1,22 @@
 <h1>{{title}}</h1>
 <p>Welcome to {{title}}</p>
-<script src="/socket.io/socket.io.js">
 
+<ul id="messages"></ul>
+<input id="message-input" type=text autocomplete="off"><input type="button" value="Send">
+<script src="/socket.io/socket.io.js">
 </script>
 <script>
 var socket = io();
-console.log(io);
-
+var button = document.querySelector('input[type=button]');
+console.log(button);
+button.addEventListener('click', sendMessage);
+function sendMessage(evt){
+    console.log('sending message', evt);
+    socket.emit('chat message', document.querySelector('#message-input').value);
+    document.querySelector('#message-input').value = '';
+}
+socket.on('chat message', onMessage);
+function onMessage(msg) {
+    document.querySelector('#messages').appendChild(document.createElement('li')).textContent = msg;
+}
 </script>
